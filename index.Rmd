@@ -6,6 +6,13 @@ output: html_document
 ---
 
 ```{r}
+library(tidyverse)
+library(ggplot2)
+Drug_Mortality <- read.csv("Drug Mortality.csv")
+```
+[Data source](https://data.cdc.gov/NCHS/NCHS-Drug-Poisoning-Mortality-by-State-United-Stat/xbxb-epbu)
+
+```{r}
 Drug_Mortality %>%
   ggplot() +
   geom_bar(aes(x = State,  y = Deaths), 
@@ -20,4 +27,49 @@ Drug_Mortality %>%
   )+
   theme(axis.text.x = element_text(angle = 90, hjust = 1))
 
+```
+
+```{r}
+Drug_Mortality %>%
+  ggplot() +
+  geom_bar(aes(x = Year,  y = Deaths), 
+           stat = "identity", 
+           fill = "skyblue",
+           alpha = 0.5    )+
+  labs(
+    title = "Drug Poisoning Deaths in the United States",
+    subtitle = "By state",
+    x = "Year",
+    y = "Deaths"
+  )+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+```{r}
+p <- ggplot(data = Drug_Mortality, mapping = aes(
+  x = Year, y = State, fill = Deaths))
+p + geom_tile() +
+  scale_fill_viridis_c()+
+  labs(
+    title = "Annual Drug Poisoning Deaths from 1999 to 2016",
+    subtitle = "By state with annual deaths",
+    x = "Year",
+    y = "Deaths"
+  )
+```
+
+```{r}
+new <- mutate(.data=Drug_Mortality, death_rate_of_population= Deaths/Population)
+
+new %>%
+  ggplot(aes(Year, death_rate_of_population))+
+  geom_point(color="chartreuse4",
+         alpha=0.5)+
+  labs(
+    title = "Drug Poisoning Deaths over Population",
+    subtitle = "By year",
+    x = "Year",
+    y = "death_rate_of_population"
+  )
 ```
