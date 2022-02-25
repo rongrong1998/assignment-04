@@ -5,3 +5,19 @@ date: "2022/2/24"
 output: html_document
 ---
 
+```{r}
+Drug_Mortality %>%
+  ggplot() +
+  geom_bar(aes(x = State,  y = Deaths), 
+           stat = "identity",
+           fill = "firebrick",
+           alpha = 0.5    )+
+  labs(
+    title = "Drug Poisoning Deaths in the United States",
+    subtitle = "By state",
+    x = "State",
+    y = "Deaths"
+  )+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
